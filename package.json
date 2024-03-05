@@ -8,9 +8,17 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/pig.cjs",
-  "module": "./dist/pig.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    "./core": "./dist/core.js",
+    "./router": "./dist/router.js",
+    "./http": "./dist/http.js",
+    "./chart": "./dist/chart.js",
+    "./formatters": "./dist/formatters.js",
+    "./components": "./dist/components.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mitchgibson/pig.git"
@@ -29,9 +37,16 @@
     "version:major": "npm version major"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.8",
     "typescript": "^5.2.2",
     "vite": "^5.1.4",
     "vite-plugin-dts": "^3.7.3",
     "vite-tsconfig-paths": "^4.3.1"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.2",
+    "rxjs": "^7.8.1",
+    "rxo-state": "^0.6.4",
+    "uuid": "^9.0.1"
   }
 }

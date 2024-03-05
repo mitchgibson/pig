@@ -17,7 +17,7 @@ export default defineConfig(({mode}) => ({
     build: {
         lib: {
             entry: resolve(__dirname, "src/index.ts"),
-            name: "rxo",
+            name: "pig",
             formats: ["es", "cjs"],
         },
         sourcemap: true,
