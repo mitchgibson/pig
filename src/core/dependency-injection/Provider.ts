@@ -34,6 +34,7 @@ export function createProviderFromClass<T>(prototype: Constructor | Array<Constr
   const args = prototype;
 
   const symbol = Symbol(constructor.name);
+  console.log(constructor.name, symbol);
   Object.defineProperty(constructor, "meta_token", { value: symbol });
   return new Provider(symbol, () => new constructor(...args));
 }

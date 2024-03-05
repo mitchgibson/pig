@@ -1,4 +1,4 @@
-import { Component } from "../..";
+import { Component } from "../../Component";
 
 export class Backdrop extends Component {
     

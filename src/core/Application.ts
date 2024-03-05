@@ -50,11 +50,11 @@ export class Application {
 
   public modules(modules: ModuleSet): this {
     modules.forEach((module) => {
-      if(!Array.isArray(module)) {
+      if (!Array.isArray(module)) {
         module = [module];
       }
       module = [...module];
-      const constructor = (module.splice(0, 1))[0] as ModuleConstructor;
+      const constructor = module.splice(0, 1)[0] as ModuleConstructor;
       const args = module;
       new constructor(this, ...args);
     });
@@ -64,13 +64,15 @@ export class Application {
 
   public provide(prototypes: ProviderSet): this {
     prototypes.forEach((prototype) => {
-      const provider = createProviderFromClass(prototype);
-      console.log(`Registering provider with token ${provider.token.toString()}`);
-      if (this._providers.has(provider.token)) {
-        throw new Error(`Provider with token ${provider.token.toString()} already exists.`);
+      try {
+        const provider = createProviderFromClass(prototype);
+        if (this._providers.has(provider.token)) {
+          throw new Error(`Provider with token ${provider.token.toString()} already exists.`);
+        }
+        this._providers.set(provider.token, provider);
+      } catch (error) {
+        console.error("Error while registering provider.", error);
       }
-      this._providers.set(provider.token, provider);
-      console.log(`Provider with token ${provider.token.toString()} registered.`);
     });
 
     return this;

@@ -1,5 +1,6 @@
 {
   "name": "pig-fwk",
+  "private": true,
   "version": "0.0.0",
   "description": "A no-html framework for building enterprise web applications in Typescript",
   "keywords": [],
@@ -7,15 +8,9 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/pig.fwk.cjs",
-  "module": "./dist/pig.fwk.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    "./core": "./dist/core.js",
-    "./router": "./dist/router.js",
-    "./http": "./dist/http.js",
-    "./chart": "./dist/chart.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mitchgibson/pig.git"
