@@ -25,8 +25,8 @@ export class Component {
 
   private _subscriptions: Subscription[] = [];
 
-  constructor(tagName?: string) {
-    this._tagName = tagName || this.pascalToKebabCase(this.constructor.name);
+  constructor(tagName: string = "div") {
+    this._tagName = tagName;
     this._element = document.createElement(this._tagName);
   }
 
@@ -272,6 +272,7 @@ export class Component {
     });
   }
 
+  // TODO: remove this after I'm sure i won't need it
   private pascalToKebabCase(str: string): string {
     str = str.charAt(0).toLowerCase() + str.slice(1);
     return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2").toLowerCase();

@@ -8,21 +8,16 @@ export class Menu extends Component {
     this.attribute("aria-labelledby", "user-menu-button");
     this.attribute("tabindex", "-1");
 
-    this.style("position", "absolute");
-    this.cssClass([
-      "right-0",
-      "z-10",
-      "mt-2",
-      "w-48",
-      "origin-top-right",
-      "rounded-md",
-      "bg-white",
-      "py-1",
-      "shadow-lg",
-      "ring-1",
-      "ring-black",
-      "ring-opacity-5",
-      "focus:outline-none",
-    ]);
+    this.styles({
+      "position": "absolute",
+      "right": "0",
+      "z-index": "80",
+      "margin-top": "2px",
+      "width": "12rem",
+      "transform-origin": "top right",
+      "background-color": "#020617",
+      "color": "#a1a1aa",
+      "box-shadow": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+    });
   }
 }

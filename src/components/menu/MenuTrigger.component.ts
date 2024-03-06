@@ -10,6 +10,7 @@ export class MenuTrigger extends Component {
   constructor(private trigger: Component, private menu: Menu) {
     super();
     this.style("position", "relative");
+    this.style("cursor", "pointer");
     this.trigger.event("click", this.toggleMenu.bind(this));
     this.menu.getChildren().forEach((child) => {
         child.event("click", this.toggleMenu.bind(this));
