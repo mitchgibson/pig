@@ -1,4 +1,4 @@
-import { Component, ComponentEventCallback } from "../../../../Component";
+import { Component, ComponentEventCallback } from "../../../../core/Component";
 import { Input } from "./Input.component";
 
 export class TextInput extends Input {

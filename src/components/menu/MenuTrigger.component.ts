@@ -1,6 +1,6 @@
-import { Inject } from "../../dependency-injection/Inject";
-import { BackdropService } from "../../modules/backdrop/Backdrop.service";
-import { Component } from "../../Component";
+import { Inject } from "../../core/dependency-injection/Inject";
+import { BackdropService } from "../../core/modules/backdrop/Backdrop.service";
+import { Component } from "../../core/Component";
 import { Menu } from "./Menu.component";
 
 export class MenuTrigger extends Component {

@@ -114,9 +114,14 @@ export class Component {
     return this;
   }
 
-  public style(name: string, value: string): this {
+  public style(name: string, value: any): this {
     this._styles.set(name, value);
     this._element.style.setProperty(name, value);
+    return this;
+  }
+
+  public styles(values: Record<string, any>): this {
+    Object.entries(values).forEach(([name, value]) => this.style(name, value));
     return this;
   }
 

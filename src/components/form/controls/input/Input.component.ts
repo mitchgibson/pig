@@ -1,4 +1,4 @@
-import { Component } from "../../../../Component";
+import { Component } from "../../../../core/Component";
 
 type InputType = "text" | "number" | "password" | "email" | "tel" | "url" | "search" | "date" | "time" | "datetime-local" | "month" | "week" | "color";
 
