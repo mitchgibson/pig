@@ -19,12 +19,12 @@ export class MenuTrigger extends Component {
   }
 
   public direction(direction: "left" | "right"): this {
-    if(direction === "left") {
+    if(direction === "right") {
       this.menu.style("right", "auto");
       this.menu.style("left", "0");
     }
 
-    if(direction === "right") {
+    if(direction === "left") {
       this.menu.style("left", "auto");
       this.menu.style("right", "0");
     }

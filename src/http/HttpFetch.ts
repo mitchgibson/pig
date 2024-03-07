@@ -17,6 +17,7 @@ export class HttpFetch<T = any> {
   private _httpFetchOptions: HttpFetchOptions;
   private _params: URLSearchParams;
   private _transformer: (data: any) => T = (data: any) => data as T;
+  private _beforeSendObservers: ((request: HttpFetch<T>) => HttpFetch<T>)[] = [];
 
   private _dataSubject: BehaviorSubject<T | undefined> = new BehaviorSubject<T | undefined>(undefined);
   private _loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -37,8 +38,23 @@ export class HttpFetch<T = any> {
     return this;
   }
 
-  public params(params: URLSearchParams): HttpFetch<T> {
-    this._params = params;
+  public beforeSend(interceptor: (request: HttpFetch<T>) => HttpFetch<T>): HttpFetch<T> {
+    this._beforeSendObservers.push(interceptor);
+    return this;
+  }
+
+  public params(params: Record<string, string>, merge: boolean = false): HttpFetch<T> {
+    this._params = new URLSearchParams();
+    if(merge) {
+      const mergedParams = Object.assign({}, Object.fromEntries(this._params), params);
+      Object.keys(mergedParams).forEach((key) => {
+        this._params.set(key, mergedParams[key]);
+      });
+    } else {
+      Object.keys(params).forEach((key) => {
+        this._params.set(key, params[key]);
+      });
+    }
     return this;
   }
 

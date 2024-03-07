@@ -1,8 +1,8 @@
 import { Component } from "../../core";
 
 export class Container extends Component {
-  constructor() {
-    super("div");
+  constructor(tagName: string = "div") {
+    super(tagName);
     this.styles({
       display: "flex",
       "flex-direction": "column",
@@ -76,9 +76,16 @@ export class Container extends Component {
     return this;
   }
 
-  public spaceBetween(): this {
+  public justifyBetween(): this {
     this.styles({
       "justify-content": "space-between",
+    });
+    return this;
+  }
+
+  public justifyStart(): this {
+    this.styles({
+      "justify-content": "flex-start",
     });
     return this;
   }
@@ -107,6 +114,13 @@ export class Container extends Component {
   public overflow(): this {
     this.styles({
       overflow: "auto",
+    });
+    return this;
+  }
+
+  public padding(size: string): this {
+    this.styles({
+      padding: size,
     });
     return this;
   }
