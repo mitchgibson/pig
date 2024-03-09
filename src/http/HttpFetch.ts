@@ -119,6 +119,9 @@ export class HttpFetch<T = any> {
     this._loadingSubject.next(true);
     this._errorSubject.next(undefined);
 
+    this._beforeSendObservers.forEach((observer) => {
+      observer(this);
+    });
     const requestOptions = this._httpFetchOptions.options.getOptions();
     const initialRequest = this.buildRequest(this._url, requestOptions);
     this._httpFetchOptions.interceptors

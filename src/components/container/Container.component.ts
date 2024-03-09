@@ -83,6 +83,13 @@ export class Container extends Component {
     return this;
   }
 
+  public justifyCenter(): this {
+    this.styles({
+      "justify-content": "center",
+    });
+    return this;
+  }
+
   public justifyStart(): this {
     this.styles({
       "justify-content": "flex-start",

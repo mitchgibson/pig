@@ -2,43 +2,63 @@ import { Inject } from "../../core/dependency-injection/Inject";
 import { BackdropService } from "../../core/modules/backdrop/Backdrop.service";
 import { Component } from "../../core/Component";
 import { Menu } from "./Menu.component";
+import { MenuItem } from "./MenuItem.component";
 
 export class MenuTrigger extends Component {
   private showMenu: boolean = false;
   private backdropService = Inject(BackdropService);
 
-  constructor(private trigger: Component, private menu: Menu) {
+  private _menuComponent: Menu = new Menu();
+  private _triggerComponent: Component = new Component();
+
+  constructor(trigger?: Component, items?: MenuItem[]) {
     super();
     this.style("position", "relative");
     this.style("cursor", "pointer");
-    this.trigger.event("click", this.toggleMenu.bind(this));
-    this.menu.getChildren().forEach((child) => {
-        child.event("click", this.toggleMenu.bind(this));
+    if(trigger) this.setTrigger(trigger);
+    if(items) this.setMenuItems(items);
+  }
+
+  public setTrigger(trigger: Component): this {
+    this._triggerComponent = trigger;
+    this._triggerComponent.event("click", this.toggleMenu.bind(this));
+    this.insertChild(this._triggerComponent, 0);
+    return this;
+  }
+
+  public setMenuItems(items: MenuItem[]): this {
+    items.forEach((item) => {
+      item.event("click", this.toggleMenu.bind(this));
     });
-    this.children([this.trigger]);
+    this._menuComponent.children(items);
+    return this;
+  }
+
+  public getMenuComponent(): Menu {
+    return this._menuComponent;
   }
 
   public direction(direction: "left" | "right"): this {
     if(direction === "right") {
-      this.menu.style("right", "auto");
-      this.menu.style("left", "0");
+      this._menuComponent.style("right", "auto");
+      this._menuComponent.style("left", "0");
     }
 
     if(direction === "left") {
-      this.menu.style("left", "auto");
-      this.menu.style("right", "0");
+      this._menuComponent.style("left", "auto");
+      this._menuComponent.style("right", "0");
     }
     return this;
   }
 
   public disable(): this {
-    this.trigger.disable();
+    this._triggerComponent.disable();
     super.disable();
     return this;
   }
 
   public enable(): this {
-    this.trigger.enable();
+    this._triggerComponent.enable();
     super.enable();
     return this;
   }
@@ -55,12 +75,12 @@ export class MenuTrigger extends Component {
   }
 
   private onHide(): void {
-    this.removeChild(this.menu);
+    this.removeChild(this._menuComponent);
     this.showMenu = false;
   }
 
   private onShow(): void {
-    this.insertChild(this.menu);
+    this.insertChild(this._menuComponent);
     this.showMenu = true;
   }
 }
