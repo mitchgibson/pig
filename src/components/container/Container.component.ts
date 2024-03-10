@@ -6,8 +6,6 @@ export class Container extends Component {
     this.styles({
       display: "flex",
       "flex-direction": "column",
-      background: "#020617",
-      color: "#e2e8f0",
     });
   }
 

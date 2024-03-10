@@ -34,7 +34,7 @@ export class MenuTrigger extends Component {
     return this;
   }
 
-  public getMenuComponent(): Menu {
+  public menuComponent(): Menu {
     return this._menuComponent;
   }
 
