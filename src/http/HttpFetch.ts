@@ -16,14 +16,14 @@ export class HttpFetch<T = any> {
   private _path: string = "";
   private _httpFetchOptions: HttpFetchOptions;
   private _params: URLSearchParams;
-  private _transformer: (data: any) => T = (data: any) => data as T;
+  private _transformer: (data: any) => unknown = (data: any) => data as unknown;
   private _beforeSendObservers: ((request: HttpFetch<T>) => HttpFetch<T>)[] = [];
 
-  private _dataSubject: BehaviorSubject<T | undefined> = new BehaviorSubject<T | undefined>(undefined);
+  private _dataSubject: BehaviorSubject<T | undefined | unknown> = new BehaviorSubject<T | undefined | unknown>(undefined);
   private _loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _errorSubject: BehaviorSubject<HttpResponseError | undefined> = new BehaviorSubject<HttpResponseError | undefined>(undefined);
 
-  public data$: Observable<T | undefined> = this._dataSubject.asObservable();
+  public data$: Observable<T | undefined | unknown> = this._dataSubject.asObservable();
   public loading$: Observable<boolean> = this._loadingSubject.asObservable();
   public error$: Observable<HttpResponseError | undefined> = this._errorSubject.asObservable();
 
@@ -33,9 +33,9 @@ export class HttpFetch<T = any> {
     this._params = params;
   }
 
-  public transform(transformer: (data: any) => T): HttpFetch<T> {
+  public transform<U = T>(transformer: typeof this._transformer): HttpFetch<U> {
     this._transformer = transformer;
-    return this;
+    return this as unknown as HttpFetch<U>;
   }
 
   public beforeSend(interceptor: (request: HttpFetch<T>) => HttpFetch<T>): HttpFetch<T> {
@@ -45,7 +45,7 @@ export class HttpFetch<T = any> {
 
   public params(params: Record<string, string>, merge: boolean = false): HttpFetch<T> {
     this._params = new URLSearchParams();
-    if(merge) {
+    if (merge) {
       const mergedParams = Object.assign({}, Object.fromEntries(this._params), params);
       Object.keys(mergedParams).forEach((key) => {
         this._params.set(key, mergedParams[key]);
@@ -93,7 +93,7 @@ export class HttpFetch<T = any> {
     return this;
   }
 
-  public state(): AsyncObservableState<T> {
+  public state(): AsyncObservableState<T | unknown> {
     return {
       data: this._dataSubject.getValue(),
       loading: this._loadingSubject.getValue(),
@@ -146,7 +146,7 @@ export class HttpFetch<T = any> {
           return EMPTY;
         })
       )
-      .subscribe((data: T) => {
+      .subscribe((data: unknown) => {
         this._dataSubject.next(data);
         this._loadingSubject.next(false);
       });

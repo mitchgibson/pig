@@ -88,7 +88,6 @@ export class Application {
   }
 
   public bootstrap(selector: string): void {
-    console.log("Bootstrapping application.");
     this._rootComponent = new this._rootPrototype();
     Inject<RootState>(RootState).mutate(this._rootComponent);
 
@@ -96,7 +95,6 @@ export class Application {
     if (!element) {
       throw new Error(`Element with selector ${selector} not found.`);
     }
-    this._rootComponent.init();
     element.append(this._rootComponent.render());
   }
 }

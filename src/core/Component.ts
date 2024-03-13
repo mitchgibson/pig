@@ -30,8 +30,6 @@ export class Component {
     this._element = document.createElement(this._tagName);
   }
 
-  public init(): void {}
-
   public destroy(): void {
     this._children.forEach((child) => child.destroy());
     this._subscriptions.forEach((s) => s.unsubscribe());
@@ -41,8 +39,8 @@ export class Component {
     return this._renderEngine(this);
   }
 
-  public reaction<T = any>(observe: Observable<T>, handler: (result: T) => void): void {
-    this._subscriptions.push(observe.subscribe(handler));
+  public reaction<T = any>(observe: Observable<T>, handler: (result: T, context: Component) => void): void {
+    this._subscriptions.push(observe.subscribe((result: T) => handler(result, this)));
   }
 
   protected getStylesKey(): string {
@@ -179,7 +177,6 @@ export class Component {
     this.getChildren().forEach((child) => this.removeChild(child));
     this._children = children;
     const elements = this._children.map((child) => {
-      child.init();
       return child.render();
     });
     this._element.innerHTML = "";
@@ -195,7 +192,6 @@ export class Component {
 
   public insertChild(child: Component, index: number = this.getChildren().length): this {
     this._children.splice(index, 0, child);
-    child.init();
     this._element.insertBefore(child.render(), this._element.children[index]);
     return this;
   }

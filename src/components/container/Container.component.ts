@@ -102,6 +102,20 @@ export class Container extends Component {
     return this;
   }
 
+  public itemsStart(): this {
+    this.styles({
+      "align-items": "flex-start",
+    });
+    return this;
+  }
+
+  public itemsEnd(): this {
+    this.styles({
+      "align-items": "flex-end",
+    });
+    return this;
+  }
+
   public overflowY(): this {
     this.styles({
       "overflow-y": "auto",
