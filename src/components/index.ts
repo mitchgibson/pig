@@ -5,3 +5,4 @@ export * from "./menu";
 export * from "./slot";
 export * from "./search";
 export * from "./a";
+export * from "./button";
