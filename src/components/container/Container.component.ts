@@ -95,6 +95,13 @@ export class Container extends Component {
     return this;
   }
 
+  public justifyEnd(): this {
+    this.styles({
+      "justify-content": "flex-end",
+    });
+    return this;
+  }
+
   public itemsCenter(): this {
     this.styles({
       "align-items": "center",
