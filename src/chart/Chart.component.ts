@@ -1,5 +1,6 @@
 import { Chart as ChartJs, ChartConfiguration, ChartData, ChartTypeRegistry } from "chart.js";
 import { Component } from "../core/Component";
+import { debounceTime, fromEvent } from "rxjs";
 
 export class Chart extends Component {
   protected _container: Component;
@@ -10,6 +11,11 @@ export class Chart extends Component {
   constructor(container: Component) {
     super("canvas");
     this._container = container;
+    this.setup();
+  }
+
+  private setup(): void {
+    this.reaction(fromEvent(window, "resize").pipe(debounceTime(100)), () => this.render());
   }
 
   public config(config: Partial<ChartConfiguration>): this {
