@@ -10,4 +10,9 @@ export class Img extends Component {
         this.attribute("src", src);
         return this;
     }
+
+    public alt(alt: string) {
+        this.attribute("alt", alt);
+        return this;
+    }
 }
