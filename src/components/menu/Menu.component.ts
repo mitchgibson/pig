@@ -18,6 +18,8 @@ export class Menu extends Component {
       "background-color": "#020617",
       "color": "#a1a1aa",
       "box-shadow": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+      "max-height": "250px",
+      "overflow-y": "auto",
     });
   }
 }
