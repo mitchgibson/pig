@@ -66,12 +66,8 @@ export class RouterState extends State<ActiveRoute> {
     for (const [key, value] of params) {
       activeRoute.params[key] = value;
     }
-
-
-    console.log("Transitioning", path);
     const fromRoute = this.peek();
     window.history.replaceState(activeRoute.state, "", path + location.search);
-    console.log("Active Route", activeRoute);
     this.next(activeRoute);
     await this.activateRoute(activeRoute.route!, path);
     this.emit("transition-end", { from: fromRoute, to: activeRoute });
