@@ -34,32 +34,44 @@ export class RouterState extends State<ActiveRoute> {
 
   public mutate(mutation: Mutation): void {
     window.history.pushState({}, "", mutation.path);
-
-    this.handleStateChange(window.location.pathname, mutation.options);
+    this.handleStateChange(window.location, mutation.options);
   }
 
-  private handleStateChange(path: string = window.location.pathname, options?: MutationOptions): void {
+  private handleStateChange(location: Location = window.location, options?: MutationOptions): void {
+    const path = location.pathname;
     const route = this.getRouteNode(path);
     if (route) {
-      this.startTransition(route, path, options);
+      this.startTransition(route, location, options);
     }
   }
 
-  private async startTransition(route: RouteNode, path: string, options?: MutationOptions): Promise<void> {
+  private async startTransition(route: RouteNode, location: Location, options?: MutationOptions): Promise<void> {
     const fromRoute = this.peek();
     this.emit("transition-start", { from: fromRoute, to: route });
 
+    const path = location.pathname;
     const activeRoute = await this.createActiveRoute(route, route.getState(path));
 
     if (options?.reload === false && activeRoute.route === this.peek().route) {
       return;
     }
-    await this.transition(activeRoute, path);
+    await this.transition(activeRoute, location);
   }
 
-  private async transition(activeRoute: ActiveRoute, path: string): Promise<void> {
+  private async transition(activeRoute: ActiveRoute, location: Location): Promise<void> {
+    const path = location.pathname;
+    const params = new URLSearchParams(location.search);
+    
+    activeRoute.params = {};
+    for (const [key, value] of params) {
+      activeRoute.params[key] = value;
+    }
+
+
+    console.log("Transitioning", path);
     const fromRoute = this.peek();
-    window.history.replaceState(activeRoute.state, "", path);
+    window.history.replaceState(activeRoute.state, "", path + location.search);
+    console.log("Active Route", activeRoute);
     this.next(activeRoute);
     await this.activateRoute(activeRoute.route!, path);
     this.emit("transition-end", { from: fromRoute, to: activeRoute });
