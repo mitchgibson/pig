@@ -15,8 +15,24 @@ export class MenuTrigger extends Component {
     super();
     this.style("position", "relative");
     this.style("cursor", "pointer");
-    if(trigger) this.setTrigger(trigger);
-    if(items) this.setMenuItems(items);
+    if (trigger) this.setTrigger(trigger);
+    if (items) this.setMenuItems(items);
+    this._menuComponent.styles({
+      "animation-duration": "0.3s",
+      "animation-name": "fadeIn",
+      "animation-iteration-count": "1",
+      "transform-origin": "top left"
+    });
+  }
+
+  public openLeft(): this {
+    this._menuComponent.style("transform-origin", "top left");
+    return this;
+  }
+
+  public openRight(): this {
+    this._menuComponent.style("transform-origin", "top right");
+    return this;
   }
 
   public setTrigger(trigger: Component): this {
@@ -27,10 +43,18 @@ export class MenuTrigger extends Component {
   }
 
   public setMenuItems(items: MenuItem[]): this {
+    const style = new Component("style");
+    style.content(`@keyframes fadeIn {
+      from {
+        scale: 0;
+        }
+      }`);
+
+    this.menuComponent().insertChild(style, 0);
     items.forEach((item) => {
       item.event("click", this.toggleMenu.bind(this));
     });
-    this._menuComponent.children(items);
+    this._menuComponent.children([style, ...items]);
     return this;
   }
 
@@ -39,12 +63,12 @@ export class MenuTrigger extends Component {
   }
 
   public direction(direction: "left" | "right"): this {
-    if(direction === "right") {
+    if (direction === "right") {
       this._menuComponent.style("right", "auto");
       this._menuComponent.style("left", "0");
     }
 
-    if(direction === "left") {
+    if (direction === "left") {
       this._menuComponent.style("left", "auto");
       this._menuComponent.style("right", "0");
     }
