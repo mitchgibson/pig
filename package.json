@@ -1,6 +1,5 @@
 {
   "name": "pig-fwk",
-  "private": true,
   "version": "0.0.0",
   "description": "A no-html framework for building enterprise web applications in Typescript",
   "keywords": [],

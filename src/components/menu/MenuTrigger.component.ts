@@ -25,12 +25,12 @@ export class MenuTrigger extends Component {
     });
   }
 
-  public openLeft(): this {
+  public openFromLeft(): this {
     this._menuComponent.style("transform-origin", "top left");
     return this;
   }
 
-  public openRight(): this {
+  public openFromRight(): this {
     this._menuComponent.style("transform-origin", "top right");
     return this;
   }
