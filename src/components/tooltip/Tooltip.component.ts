@@ -3,6 +3,8 @@ import { Component } from "../../core/Component";
 export class Tooltip extends Component {
   private _tipContent: Component = new Component();
   private _trigger: Component;
+  private _delay: number = 700;
+  private _show: boolean = false;
 
   constructor(trigger: Component, content: string) {
     super();
@@ -11,16 +13,26 @@ export class Tooltip extends Component {
     this._tipContent.style("display", "none");
     this._tipContent.style("position", "absolute");
     this._tipContent.style("z-index", "90");
-    
+
     this.children([this._trigger, this._tipContent]);
-    
+
     this.style("position", "relative");
     this.setupEvents();
   }
 
   private setupEvents(): void {
-    this._trigger.event("mouseenter", () => this._tipContent.style("display", "block"));
-    this._trigger.event("mouseleave", () => this._tipContent.style("display", "none"));
+    this._trigger.event("mouseenter", () => {
+      this._show = true;
+      setTimeout(() => {
+        if (!this._show) return;
+        this._tipContent.style("display", "block");
+        this._show = false;
+      }, this._delay);
+    });
+    this._trigger.event("mouseleave", () => {
+      this._show = false;
+      this._tipContent.style("display", "none");
+    });
   }
 
   public setContent(content: string): this {
@@ -55,8 +67,7 @@ export class Tooltip extends Component {
   }
 
   public delay(delay: number): this {
-    this._tipContent.style("transition-delay", `${delay}ms`);
+    this._delay = delay;
     return this;
   }
 }
-
