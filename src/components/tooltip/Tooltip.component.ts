@@ -66,6 +66,11 @@ export class Tooltip extends Component {
     return this;
   }
 
+  public cssClass(value: string[]): this {
+    this._tipContent.cssClass(value);
+    return this;
+  }
+
   public delay(delay: number): this {
     this._delay = delay;
     return this;
