@@ -53,5 +53,10 @@ export class Tooltip extends Component {
     }
     return this;
   }
+
+  public delay(delay: number): this {
+    this._tipContent.style("transition-delay", `${delay}ms`);
+    return this;
+  }
 }
 
